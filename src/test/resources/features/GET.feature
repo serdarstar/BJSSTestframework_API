@@ -11,4 +11,8 @@ Feature: GET Users
     When I get user information from api for user 2
     Then the user info should match the following values
 
+  Scenario: Simple verify
+    When I send an invalid GET request
+    Then the status code for invalid request should be 404
+
 

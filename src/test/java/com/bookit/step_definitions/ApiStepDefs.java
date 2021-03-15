@@ -19,6 +19,7 @@ public class ApiStepDefs {
 
     Response get;
     Response get1;
+    Response invalidGet;
     Response post;
     Response put;
     Response delete;
@@ -125,7 +126,6 @@ public class ApiStepDefs {
                 .body(jsonBody)
                 .when()
                 .put(ConfigurationReader.get("url")+"users/3");
-        put.prettyPrint();
     }
 
     @Then("the response code should be {int}")
@@ -164,5 +164,18 @@ public class ApiStepDefs {
     public void theDeleteStatusCodeShouldBe(int statusCode) {
         Assert.assertEquals(delete.statusCode(), statusCode);
 
+    }
+
+    @When("I send an invalid GET request")
+    public void iSendAnInvalidGETRequest() {
+        String url = ConfigurationReader.get("url")+"users/x";
+        invalidGet = given().accept(ContentType.JSON).when().get(url);
+
+    }
+
+    @Then("the status code for invalid request should be {int}")
+    public void theStatusCodeForInvalidRequestShouldBe(int statusCode) {
+
+        Assert.assertEquals(invalidGet.statusCode(), statusCode);
     }
 }
